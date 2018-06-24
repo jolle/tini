@@ -16,23 +16,26 @@ module['exports']['mk'] = function() {
         if (i == 0 && bb > -1) element = e('div');
 
         if (
-            !current ||
-            (stack.length > 0 &&
-                (stack[0] == '{' || stack[0] == '['
-                    ? stack[0] == specialStarts[bb - 1]
-                    : bb > -1))
+            !current || // end
+            (stack.length > 0 && // check that the stack has been populated NOTE: this might not be required?
+                (stack[0] == '{' || stack[0] == '[' // if the first char is an endable block...
+                    ? stack[0] == specialStarts[bb - 1] // check that if the char is the ending char
+                    : bb > -1)) // otherwise just check that the current char is a special char
         ) {
             var n = stack.join(''),
                 b = n.substr(1);
             if (!element) {
-                element = e(n);
-                stack = [current];
+                // if there is no element already, we must be reading for the element type/name
+                element = e(n); // create new element with given name
+                stack = [current]; // start the new stack with current char as we were stopped by a special char
             } else if (stack[0] == '{' || stack[0] == '[') {
-                var ll1 = b.split('=');
-                var ll = [ll1[0], ll1.slice(1).join('=')];
+                // check if the first char is an endable block
+                var ll1 = b.split('='); // split the current stack with =
+                var ll = [ll1[0], ll1.slice(1).join('=')]; // make an array with the left side and right side of = (in case right side has more than one =)
                 if (stack[0] == '[') element.setAttribute(ll[0], ll[1]);
-                else if (stack[0] == '{') element.style[ll[0]] = ll[1];
-                stack = [];
+                // if block is an attribute block, set the attribute
+                else element.style[ll[0]] = ll[1]; // otherwise presume that it's a style block; apply style
+                stack = []; // clear the stack
             } else {
                 if (stack[0] == '.') element.classList.add(b);
                 else if (stack[0] == '#') element.id = b;
