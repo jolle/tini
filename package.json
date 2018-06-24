@@ -1,0 +1,14 @@
+{
+    "name": "tiny",
+    "version": "1.0.0",
+    "main": "build/mk.min.js",
+    "license": "MIT",
+    "devDependencies": {
+        "google-closure-compiler": "^20180610.0.2",
+        "jest": "^23.1.0"
+    },
+    "scripts": {
+        "build": "./node_modules/.bin/google-closure-compiler -O ADVANCED --js=src/mk.js --js_output_file=build/mk.min.js --externs extern.js; cp src/mk.d.ts build/mk.d.ts",
+        "test": "./node_modules/.bin/jest"
+    }
+}
