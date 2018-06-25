@@ -13,7 +13,7 @@ document.body.appendChild(
         function onclick() {
             console.log('and I can listen for events too!');
         },
-        mk('input', { disabled: true })
+        mk('input[disabled=disabled]')
     )
 );
 ```
