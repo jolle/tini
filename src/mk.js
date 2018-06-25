@@ -31,7 +31,7 @@ module['exports']['mk'] = function() {
                 element = e(stack); // create new element with given name
             } else if (isBlock) {
                 // check if the first char is an endable block
-                var ll = n.split('=');
+                var ll = n.split(/=(.*)/);
                 if (currentFirst == 4) element.setAttribute(ll[0], ll[1]);
                 // if block is an attribute block, set the attribute
                 else element.style[ll[0]] = ll[1]; // otherwise presume that it's a style block; apply style
