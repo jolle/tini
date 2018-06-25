@@ -47,15 +47,8 @@ module['exports']['mk'] = function() {
     for (var i = 1; i < children.length; i++) {
         var o = children[i],
             v = o.tagName;
-        if (
-            (o + [])[0] == '[' && // coverts to string by concatting with an array and checks if first char
-            !v // if a HTMLElement, will have a tagName
-        ) {
-            for (var key in o) {
-                if (key.slice(0, 2) == 'on')
-                    element.addEventListener(key.slice(2), o[key]);
-                else element[key] = o[key];
-            }
+        if (o.call) {
+            element.addEventListener(o.name.slice(2), o);
         } else
             element.appendChild(
                 v // if a HTMLElement, will have a tagName

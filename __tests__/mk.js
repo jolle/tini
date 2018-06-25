@@ -85,8 +85,8 @@ describe('mk', () => {
     it('listens to an event and triggers callback', () => {
         const mock = jest.fn();
 
-        const el = mk('div', {
-            onclick: mock
+        const el = mk('div', function onclick() {
+            mock();
         });
 
         el.click();
