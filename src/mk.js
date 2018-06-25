@@ -9,37 +9,43 @@ module['exports']['mk'] = function() {
     var element;
 
     var stack = '';
+    var currentFirst = '';
+    var isBlock; // falsish
     for (var i = 0; i <= selector.length; i++) {
         var current = selector[i];
         var bb = specialStarts.indexOf(current);
+        var nc = bb && !(bb % 2);
+        var l = bb > -1;
 
-        if (i == 0 && bb > -1) element = e('div');
+        if (!i && l) element = e('div');
 
         if (
             !current || // end
-            //(stack.length > 0 && // check that the stack has been populated NOTE: this might not be required?
-            (stack[0] == '{' || stack[0] == '[' // if the first char is an endable block...
-                ? stack[0] == specialStarts[bb - 1] // check that if the char is the ending char
-                : bb > -1) //) // otherwise just check that the current char is a special char
+            (isBlock // if the first char is an endable block...
+                ? currentFirst == bb - 1 // check that if the char is the ending char
+                : l) //) // otherwise just check that the current char is a special char
         ) {
             var n = stack.slice(1);
             if (!element) {
                 // if there is no element already, we must be reading for the element type/name
                 element = e(stack); // create new element with given name
-            } else if (stack[0] == '{' || stack[0] == '[') {
+            } else if (isBlock) {
                 // check if the first char is an endable block
-                var ll1 = n.split('='); // split the current stack with =
-                var ll = [ll1[0], ll1.slice(1).join('=')]; // make an array with the left side and right side of = (in case right side has more than one =)
-                if (stack[0] == '[') element.setAttribute(ll[0], ll[1]);
+                var ll = n.split('=');
+                if (currentFirst == 4) element.setAttribute(ll[0], ll[1]);
                 // if block is an attribute block, set the attribute
                 else element.style[ll[0]] = ll[1]; // otherwise presume that it's a style block; apply style
                 current = '';
             } else if (stack) {
-                if (stack[0] == '.') element.classList.add(n);
+                if (currentFirst == 1) element.classList.add(n);
                 else element.id = n;
             }
+            isBlock = nc;
+            currentFirst = bb;
             stack = current;
         } else {
+            !isBlock && (isBlock = nc);
+            !currentFirst && (currentFirst = bb);
             stack += current;
         }
     }

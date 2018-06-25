@@ -62,7 +62,7 @@ describe('mk', () => {
     });
 
     it('creates an element with an ID, a class, an attribute and a background color', () => {
-        const el = mk('.test#test[testKey=testValue]{backgroundColor=red}');
+        const el = mk('.test[testKey=testValue]{backgroundColor=red}#test');
         expect(el.id).toBe('test');
         expect(el.classList.contains('test')).toBeTruthy();
         expect(el.attributes.testKey.value).toBe('testValue');
