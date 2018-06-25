@@ -10,8 +10,8 @@ document.body.appendChild(
         '{color=red}[data-cool=yes].nice#hello',
         "I'm a cool div",
         mk('strong.extraCool', 'with a super cool strong tag!'),
-        {
-            onclick: () => console.log('and I can listen for events too!')
+        function onclick() {
+            console.log('and I can listen for events too!');
         },
         mk('input', { disabled: true })
     )
