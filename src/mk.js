@@ -8,8 +8,8 @@ module['exports']['mk'] = function() {
 
     var element;
 
-    let stack = '';
-    for (let i = 0; i <= selector.length; i++) {
+    var stack = '';
+    for (var i = 0; i <= selector.length; i++) {
         var current = selector[i];
         var bb = specialStarts.indexOf(current);
 
@@ -45,7 +45,7 @@ module['exports']['mk'] = function() {
         }
     }
 
-    for (let i = 0; i < children.length; i++) {
+    for (var i = 0; i < children.length; i++) {
         if (
             children[i] instanceof Object &&
             !(children[i] instanceof HTMLElement)
