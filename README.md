@@ -1,6 +1,6 @@
 # tini
 
-A very tiny (~0.8kb) element creation helper. Supports styles, attributes, event listeners, text node creation, classes, IDs and children.
+A very tiny (~0.5kb) element creation helper. Supports styles, attributes, event listeners, text node creation, classes, IDs and children.
 
 ```js
 import { mk } from 'tini';
