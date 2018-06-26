@@ -1,18 +1,21 @@
 module['exports']['mk'] = function(selector) {
-    var d = document;
-    var e = d.createElement.bind(d);
-    var specialStarts = '.{}[]~#'.split(''); // ~ is padding; when checking for block starters, indexes divisible by 2 are block starters
+    // module properties in computational blocks for closure compiler
+    // uses function() {...} for `arguments` support
 
-    var element;
+    const d = document;
+    const e = d.createElement.bind(d);
+    const specialStarts = '.{}[]~#'.split(''); // ~ is padding; when checking for block starters, indexes divisible by 2 are block starters
 
-    var stack = '';
-    var currentFirst;
-    var isBlock; // falsish
-    for (var i = 0; i <= selector.length; i++) {
-        var current = selector[i];
-        var currentIndex = specialStarts.indexOf(current);
-        var currentIsStartingBlock = currentIndex % 2; // returns an integer but output can be 1 or 0; 1 is trueish and 0 is falseish
-        var isSpecialStart = ~currentIndex; // if not found, output is 0 (=falseish), otherwise -1 (=trueish)
+    let element;
+
+    let stack = '';
+    let currentFirst;
+    let isBlock; // falsish
+    for (let i = 0; i <= selector.length; i++) {
+        let current = selector[i];
+        let currentIndex = specialStarts.indexOf(current);
+        let currentIsStartingBlock = currentIndex % 2; // returns an integer but output can be 1 or 0; 1 is trueish and 0 is falseish
+        const isSpecialStart = ~currentIndex; // if not found, output is 0 (=falseish), otherwise -1 (=trueish)
 
         if (!i && isSpecialStart) element = e('div'); // if it's the first iteration (i is falseish) and the first char is special, fall back to default element (div)
 
@@ -22,13 +25,13 @@ module['exports']['mk'] = function(selector) {
                 ? currentFirst == currentIndex - 1 // check that if the char is the ending char
                 : isSpecialStart) //) // otherwise just check that the current char is a special char
         ) {
-            var n = stack.slice(1);
+            const n = stack.slice(1);
             if (!element) {
                 // if there is no element already, we must be reading for the element type/name
                 element = e(stack); // create new element with given name
             } else if (isBlock) {
                 // split by first =
-                var ll = n.split(/=(.*)/);
+                const ll = n.split(/=(.*)/);
                 if (currentFirst % 3) element.style[ll[0]] = ll[1];
                 // the {'s index is not divisible by 3 (=trueish value)
                 else element.setAttribute(ll[0], ll[1]); // we'll presume that if it's not {, it's [
@@ -46,9 +49,9 @@ module['exports']['mk'] = function(selector) {
         }
     }
 
-    for (var i = 1, arg = arguments; i < arg.length; i++) {
+    for (let i = 1, arg = arguments; i < arg.length; i++) {
         // starts at 1 as the first argument is the selector
-        var currentArg = arg[i];
+        const currentArg = arg[i];
         if (currentArg.call) {
             // o.call exists only on functions; not on HTMLElements nor strings/integers
             element.addEventListener(currentArg.name.slice(2), currentArg);
