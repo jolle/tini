@@ -1,4 +1,4 @@
-module['exports']['mk'] = function(selector) {
+module['exports']['tn'] = function(selector) {
     // module properties in computational blocks for closure compiler
     // uses function() {...} for `arguments` support
 
@@ -59,7 +59,7 @@ module['exports']['mk'] = function(selector) {
             element.appendChild(
                 currentArg.tagName // if a HTMLElement, will have a tagName
                     ? currentArg
-                    : d.createTextNode(currentArg)
+                    : d.createTextNode(currentArg) // new Text(...) would be shorter but browser support is poor
             );
     }
 
