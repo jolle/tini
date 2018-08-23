@@ -11,7 +11,8 @@ module['exports']['tn'] = function(selector) {
     let stack = '';
     let currentFirst;
     let isBlock; // falsish
-    for (let i = 0; i <= selector.length; i++) {
+    let i = -1;
+    while (++i <= selector.length) {
         let current = selector[i];
         let currentIndex = specialStarts.indexOf(current);
         let currentIsStartingBlock = currentIndex % 2; // returns an integer but output can be 1 or 0; 1 is trueish and 0 is falseish
